@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.hardware.display.DisplayManager
 import android.hardware.input.InputManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.Display
@@ -815,6 +816,14 @@ class EmulatorActivity : AppCompatActivity() {
             topView?.onTop ?: false,
             bottomView?.onTop ?: false,
         )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val touchScreenArea = bottomView?.getRect()?.let {
+                val rect = android.graphics.Rect(it.x, it.y, it.right, it.bottom)
+                listOf(rect)
+            }
+            window?.systemGestureExclusionRects = touchScreenArea.orEmpty()
+        }
     }
 
     private fun setupInputHandling(controllerConfiguration: ControllerConfiguration) {
