@@ -178,15 +178,15 @@ void RetroAchievementsManager::CheevosEventHandler(const rc_runtime_event_t* run
     switch (runtime_event->type)
     {
         case RC_RUNTIME_EVENT_ACHIEVEMENT_TRIGGERED:
-            Log(LogLevel::Debug, "Achievement triggered: %d", runtime_event->id);
+            Platform::Log(Platform::LogLevel::Debug, "Achievement triggered: %d", runtime_event->id);
             eventMessenger->onAchievementTriggered(runtime_event->id);
             break;
         case RC_RUNTIME_EVENT_ACHIEVEMENT_PRIMED:
-            Log(LogLevel::Debug, "Achievement primed: %d", runtime_event->id);
+            Platform::Log(Platform::LogLevel::Debug, "Achievement primed: %d", runtime_event->id);
             eventMessenger->onAchievementPrimed(runtime_event->id);
             break;
         case RC_RUNTIME_EVENT_ACHIEVEMENT_UNPRIMED:
-            Log(LogLevel::Debug, "Achievement unprimed: %d", runtime_event->id);
+            Platform::Log(Platform::LogLevel::Debug, "Achievement unprimed: %d", runtime_event->id);
             eventMessenger->onAchievementUnprimed(runtime_event->id);
             break;
         case RC_RUNTIME_EVENT_ACHIEVEMENT_PROGRESS_UPDATED:
@@ -199,22 +199,22 @@ void RetroAchievementsManager::CheevosEventHandler(const rc_runtime_event_t* run
             {
                 char buffer[32];
                 rc_runtime_format_achievement_measured(&activeInstance->rcheevosRuntime, runtime_event->id, buffer, sizeof(buffer));
-                Log(LogLevel::Debug, "Achievement progress update: %d (%d/%d)", runtime_event->id, value, target);
+                Platform::Log(Platform::LogLevel::Debug, "Achievement progress update: %d (%d/%d)", runtime_event->id, value, target);
                 eventMessenger->onAchievementProgressUpdated(runtime_event->id, value, target, buffer);
             }
             break;
         case RC_RUNTIME_EVENT_LBOARD_STARTED:
-            Log(LogLevel::Debug, "Leaderboard attempt started: %d", runtime_event->id);
+            Platform::Log(Platform::LogLevel::Debug, "Leaderboard attempt started: %d", runtime_event->id);
             eventMessenger->onLeaderboardAttemptStarted(runtime_event->id);
             break;
         case RC_RUNTIME_EVENT_LBOARD_CANCELED:
-            Log(LogLevel::Debug, "Leaderboard attempt canceled: %d", runtime_event->id);
+            Platform::Log(Platform::LogLevel::Debug, "Leaderboard attempt canceled: %d", runtime_event->id);
             eventMessenger->onLeaderboardAttemptCanceled(runtime_event->id);
             break;
         case RC_RUNTIME_EVENT_LBOARD_TRIGGERED:
         {
             std::string formattedValue = GetLeaderboardFormattedValue(runtime_event->id, runtime_event->value);
-            Log(LogLevel::Debug, "Leaderboard attempt completed: %d (%d|%s)", runtime_event->id, runtime_event->value, formattedValue.c_str());
+            Platform::Log(Platform::LogLevel::Debug, "Leaderboard attempt completed: %d (%d|%s)", runtime_event->id, runtime_event->value, formattedValue.c_str());
             eventMessenger->onLeaderboardAttemptCompleted(runtime_event->id, runtime_event->value, formattedValue);
             break;
         }
@@ -258,7 +258,7 @@ unsigned PeekMemory(unsigned address, unsigned numBytes, void* ud)
             memoryMask = DTCMPhysicalSize - 1;
             break;
         default:
-            Log(LogLevel::Error, "Unknown memory peek region. Address: %d", address);
+            Platform::Log(Platform::LogLevel::Error, "Unknown memory peek region. Address: %d", address);
             return 0;
     }
 
@@ -280,7 +280,7 @@ unsigned PeekMemory(unsigned address, unsigned numBytes, void* ud)
             return value;
         }
         default:
-            Log(LogLevel::Error, "Unsupported memory peek size: %d", numBytes);
+            Platform::Log(Platform::LogLevel::Error, "Unsupported memory peek size: %d", numBytes);
             return 0;
     }
 }
