@@ -110,7 +110,7 @@ class ExternalPresentation(
                 val rect = android.graphics.Rect(it.x, it.y, it.right, it.bottom)
                 listOf(rect)
             }
-            window?.systemGestureExclusionRects = touchScreenArea.orEmpty()
+            layoutView.systemGestureExclusionRects = touchScreenArea.orEmpty()
         }
     }
 
